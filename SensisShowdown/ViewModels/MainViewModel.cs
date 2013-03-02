@@ -1,48 +1,107 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using SensisShowdown.Annotations;
 using SensisShowdown.Helpers;
 using SensisShowdown.Models;
 
 namespace SensisShowdown.ViewModels
 {
-    public class MainViewModel
+    public class MainViewModel : INotifyPropertyChanged
     {
         public ObservableCollection<SearchResultData> Results1 { get; set; }
         public ObservableCollection<SearchResultData> Results2 { get; set; }
-        public int Results1Total { get; set; }
-        public int Results2Total { get; set; }
+
+        private int _results1Total;
+        public int Results1Total
+        {
+            get { return _results1Total; }
+            set
+            {
+                if (value == _results1Total) return;
+                _results1Total = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _results2Total;
+        public int Results2Total
+        {
+            get { return _results2Total; }
+            set
+            {
+                if (value == _results2Total) return;
+                _results2Total = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _searchTerm1;
+        public string SearchTerm1
+        {
+            get { return _searchTerm1; }
+            set
+            {
+                if (value == _searchTerm1) return;
+                _searchTerm1 = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _searchTerm2;
+        public string SearchTerm2
+        {
+            get { return _searchTerm2; }
+            set
+            {
+                if (value == _searchTerm2) return;
+                _searchTerm2 = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Location { get; set; }
 
         public MainViewModel()
         {
             Results1 = new ObservableCollection<SearchResultData>();
             Results2 = new ObservableCollection<SearchResultData>();
 
-            GetSampleData();
+            Location = "melbourne";
+            SearchTerm1 = "KFC";
+            SearchTerm2 = "Pizza Hut";
+
+            //GetSampleData();
         }
 
-        private async void GetSampleData()
+        public void ShowDown()
         {
-            var results = await DoSearch("asian", "melbourne");
+            GetShowdownResults(SearchTerm1, SearchTerm2, Location);
+        }
 
-            var results1 = results.results.Take(5);
-            var results2 = results.results.Skip(5).Take(7);
+        public async void GetShowdownResults(string term1, string term2, string location)
+        {
+            var results1 = await DoSearch(term1, location);
+            var results2 = await DoSearch(term2, location);
 
             Results1.Clear();
-            foreach (var listing in results1)
+            foreach (var listing in results1.results)
             {
-                Results1.Add(new SearchResultData{IsResult1 = true, Latitude = listing.primaryAddress.latitude, Longitude = listing.primaryAddress.longitude, LocationName = listing.name});
+                Results1.Add(new SearchResultData { IsResult1 = true, Latitude = listing.primaryAddress.latitude, Longitude = listing.primaryAddress.longitude, LocationName = listing.name });
             }
-            Results1Total = 5;
+            Results1Total = results1.totalResults;
 
             Results2.Clear();
-            foreach (var listing in results2)
+            foreach (var listing in results2.results)
             {
-                Results2.Add(new SearchResultData { IsResult1 = false, Latitude = listing.primaryAddress.latitude, Longitude = listing.primaryAddress.longitude, LocationName = listing.name });
+                if (listing.primaryAddress != null)
+                    Results2.Add(new SearchResultData { IsResult1 = false, Latitude = listing.primaryAddress.latitude, Longitude = listing.primaryAddress.longitude, LocationName = listing.name });
             }
-            Results2Total = 7;
+            Results2Total = results2.totalResults;
         }
 
         public async Task<SearchResponse> DoSearch(string searchTerm, string location)
@@ -62,37 +121,16 @@ namespace SensisShowdown.ViewModels
 
             var total = searchResponse.totalResults;
 
-
-            // Display the results
-            foreach (var result in searchResponse.results)
-            {
-                
-            }
-
             return searchResponse;
-
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public async void GetSearchResults(string term1, string term2, string location)
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var results1 = await DoSearch(term1, location);
-            var results2 = await DoSearch(term2, location);
-
-            Results1.Clear();
-            foreach (var listing in results1.results)
-            {
-                Results1.Add(new SearchResultData { IsResult1 = true, Latitude = listing.primaryAddress.latitude, Longitude = listing.primaryAddress.longitude, LocationName = listing.name });
-            }
-            Results1Total = results1.totalResults;
-
-            Results2.Clear();
-            foreach (var listing in results2.results)
-            {
-                Results2.Add(new SearchResultData { IsResult1 = false, Latitude = listing.primaryAddress.latitude, Longitude = listing.primaryAddress.longitude, LocationName = listing.name });
-            }
-            Results2Total = results2.totalResults;
-
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

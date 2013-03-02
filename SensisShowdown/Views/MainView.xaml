@@ -17,10 +17,26 @@
         <!--<Converters:BeachStatusToImageConverter x:Key="BeachStatusToImageConverter"/>-->
     </Page.Resources>
 
-    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="White">
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="400" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="400" />
+        </Grid.ColumnDefinitions>
         
-        <Maps:Map x:Name="map" Grid.Column="1" Credentials="{StaticResource BingMapsApiKey}">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
+            <TextBox FontSize="80" Foreground="Red" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding SearchTerm1, Mode=TwoWay}" />
+            <TextBlock FontSize="60" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">VS</TextBlock>
+            <TextBox FontSize="80" Foreground="Blue" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding SearchTerm2, Mode=TwoWay}" />
+            
+            <Button Margin="0,0,0,0" BorderBrush="Black" FontSize="40" HorizontalAlignment="Center" Foreground="Black" Click="Button_Click_1">Showdown!</Button>
+        </StackPanel>
+        
+        <Maps:Map x:Name="map" Grid.Column="0" Grid.RowSpan="2" Credentials="{StaticResource BingMapsApiKey}">
             <Maps:MapLayer>
                 <Maps:MapItemsControl ItemsSource="{Binding Results1}"  >
                     <Maps:MapItemsControl.ItemTemplate>

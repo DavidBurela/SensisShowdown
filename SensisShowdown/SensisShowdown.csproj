@@ -115,6 +115,7 @@
     <Compile Include="Helpers\Converters\ResultColourConverter.cs" />
     <Compile Include="Helpers\SsapiSearcher.cs" />
     <Compile Include="Models\SearchResultData.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>

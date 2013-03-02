@@ -1,4 +1,5 @@
 ﻿using Bing.Maps;
+using SensisShowdown.ViewModels;
 
 namespace SensisShowdown.Views
 {
@@ -12,7 +13,12 @@ namespace SensisShowdown.Views
             map.ZoomLevel = 14;
             map.Center = melbourneLocation;
             map.SetView(melbourneLocation);    // Workaround: There is an issue with the map. Images won't display until you move the map.
+        }
 
+        private void Button_Click_1(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var viewModel = this.DataContext as MainViewModel;
+            viewModel.ShowDown();
         }
     }
 }
