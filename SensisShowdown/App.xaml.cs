@@ -7,6 +7,9 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
+using Windows.UI.ApplicationSettings;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -72,7 +75,21 @@ namespace SensisShowdown
             }
             // Ensure the current window is active
             Window.Current.Activate();
+
+            SettingsPane.GetForCurrentView().CommandsRequested += App_CommandsRequested;
         }
+
+        void App_CommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
+        {
+            args.Request.ApplicationCommands.Add(new SettingsCommand("privacypolicy", "Privacy policy", OpenPrivacyPolicy));
+        }
+
+        private async void OpenPrivacyPolicy(IUICommand command)
+        {
+            var uri = new Uri("http://davidburela.wordpress.com/windows-apps-privacy-policy/");
+            await Launcher.LaunchUriAsync(uri);
+        }
+
 
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved

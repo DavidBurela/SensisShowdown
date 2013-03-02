@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="f8ec5b66-f8e0-4916-8599-f62bc45eb7b0" Publisher="CN=David" Version="1.0.0.0" />
+  <Identity Name="50172DavidBurela.SensisShowdown" Publisher="CN=A8C2CAA2-03A9-471C-9265-FD6C0B3EFD8C" Version="1.0.0.0" />
   <Properties>
-    <DisplayName>SensisShowdown</DisplayName>
-    <PublisherDisplayName>David</PublisherDisplayName>
+    <DisplayName>Sensis Showdown</DisplayName>
+    <PublisherDisplayName>David Burela</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Prerequisites>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="SensisShowdown.App">
-      <VisualElements DisplayName="SensisShowdown" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="SensisShowdown" ForegroundText="light" BackgroundColor="#464646">
+      <VisualElements DisplayName="Sensis Showdown" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="SensisShowdown" ForegroundText="light" BackgroundColor="#464646">
         <DefaultTile ShowName="allLogos" ShortName="Showdown" />
         <SplashScreen Image="Assets\SplashScreen.png" />
       </VisualElements>
