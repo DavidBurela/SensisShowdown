@@ -13,8 +13,12 @@
                     Required by Visual Studio project and item templates
                  -->
                 <ResourceDictionary Source="Common/StandardStyles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
 
+                <!--App resources-->
+                <ResourceDictionary>
+                    <x:String x:Key="BingMapsApiKey">ArImh6uvoRhxLtSKq0sXO6gT66mTIU-9mPVMuGEuCdpq6WgbA2cV8CMUteXnksDG</x:String>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

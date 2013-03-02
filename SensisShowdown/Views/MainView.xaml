@@ -1,17 +1,66 @@
 ﻿<Page
-    x:Class="SensisShowdown.Views.MainView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SensisShowdown"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:SensisShowdown.ViewModels"
+    xmlns:Maps="using:Bing.Maps" xmlns:Converters="using:SensisShowdown.Helpers.Converters"
+    x:Class="SensisShowdown.Views.MainView"
     mc:Ignorable="d">
     <Page.DataContext>
         <viewModels:MainViewModel />
     </Page.DataContext>
 
+    <Page.Resources>
+        <Converters:ResultColourConverter x:Key="ResultColourConverter"/>
+        <!--<Converters:BeachStatusToImageConverter x:Key="BeachStatusToImageConverter"/>-->
+    </Page.Resources>
+
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+
+        
+        <Maps:Map x:Name="map" Grid.Column="1" Credentials="{StaticResource BingMapsApiKey}">
+            <Maps:MapLayer>
+                <Maps:MapItemsControl ItemsSource="{Binding Results1}"  >
+                    <Maps:MapItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Maps:Pushpin ToolTipService.ToolTip="{Binding LocationName}" 
+                                      Background="{Binding IsResult1, Converter={StaticResource ResultColourConverter}}">
+                                <Maps:MapLayer.Position>
+                                    <Maps:Location Longitude="{Binding Longitude}" Latitude="{Binding Latitude}" />
+                                </Maps:MapLayer.Position>
+                                <!--<Maps:Pushpin.Template>
+                                <ControlTemplate>
+                                    <Image Source="{Binding Status, ConverterParameter=BeachStatusToImageConverter, Converter={StaticResource BeachStatusToImageConverter}}"/>
+                                </ControlTemplate>
+                            </Maps:Pushpin.Template>-->
+                            </Maps:Pushpin>
+                        </DataTemplate>
+                    </Maps:MapItemsControl.ItemTemplate>
+                </Maps:MapItemsControl>
+            </Maps:MapLayer>
+
+            <Maps:MapLayer>
+                <Maps:MapItemsControl ItemsSource="{Binding Results2}"  >
+                    <Maps:MapItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Maps:Pushpin ToolTipService.ToolTip="{Binding LocationName}" 
+                                      Background="{Binding IsResult1, Converter={StaticResource ResultColourConverter}}">
+                                <Maps:MapLayer.Position>
+                                    <Maps:Location Longitude="{Binding Longitude}" Latitude="{Binding Latitude}" />
+                                </Maps:MapLayer.Position>
+                                <!--<Maps:Pushpin.Template>
+                                <ControlTemplate>
+                                    <Image Source="{Binding Status, ConverterParameter=BeachStatusToImageConverter, Converter={StaticResource BeachStatusToImageConverter}}"/>
+                                </ControlTemplate>
+                            </Maps:Pushpin.Template>-->
+                            </Maps:Pushpin>
+                        </DataTemplate>
+                    </Maps:MapItemsControl.ItemTemplate>
+                </Maps:MapItemsControl>
+            </Maps:MapLayer>
+        </Maps:Map>
 
     </Grid>
 </Page>
