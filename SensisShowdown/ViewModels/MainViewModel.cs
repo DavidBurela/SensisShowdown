@@ -13,6 +13,10 @@ namespace SensisShowdown.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        public event EventHandler SearchComplete;
+
+        public ObservableCollection<ResultTotal> ResultTotalCollection { get; set; }
+
         public ObservableCollection<SearchResultData> Results1 { get; set; }
         public ObservableCollection<SearchResultData> Results2 { get; set; }
 
@@ -70,10 +74,14 @@ namespace SensisShowdown.ViewModels
         {
             Results1 = new ObservableCollection<SearchResultData>();
             Results2 = new ObservableCollection<SearchResultData>();
+            ResultTotalCollection = new ObservableCollection<ResultTotal>();
+
+            ResultTotalCollection.Add(new ResultTotal { Name = "Term 1", Total = 4});
+            ResultTotalCollection.Add(new ResultTotal { Name = "Term 2", Total = 7 });
 
             Location = "melbourne";
-            SearchTerm1 = "KFC";
-            SearchTerm2 = "Pizza Hut";
+            SearchTerm1 = "asian";
+            SearchTerm2 = "greek";
 
             //GetSampleData();
         }
@@ -102,6 +110,13 @@ namespace SensisShowdown.ViewModels
                     Results2.Add(new SearchResultData { IsResult1 = false, Latitude = listing.primaryAddress.latitude, Longitude = listing.primaryAddress.longitude, LocationName = listing.name });
             }
             Results2Total = results2.totalResults;
+
+            ResultTotalCollection.Clear();
+            ResultTotalCollection.Add(new ResultTotal { Name = "Term 1", Total = Results1Total });
+            ResultTotalCollection.Add(new ResultTotal { Name = "Term 2", Total = Results2Total });
+
+            if (SearchComplete != null)
+                SearchComplete(this, null);
         }
 
         public async Task<SearchResponse> DoSearch(string searchTerm, string location)
@@ -132,5 +147,11 @@ namespace SensisShowdown.ViewModels
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+
+    public class ResultTotal
+    {
+        public string Name { get; set; }
+        public int Total { get; set; }
     }
 }

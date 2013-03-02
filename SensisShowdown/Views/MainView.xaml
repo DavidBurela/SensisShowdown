@@ -6,36 +6,48 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:SensisShowdown.ViewModels"
     xmlns:Maps="using:Bing.Maps" xmlns:Converters="using:SensisShowdown.Helpers.Converters"
+    xmlns:Chart="using:Telerik.UI.Xaml.Controls.Chart"
     x:Class="SensisShowdown.Views.MainView"
+
     mc:Ignorable="d">
-    <Page.DataContext>
-        <viewModels:MainViewModel />
-    </Page.DataContext>
 
     <Page.Resources>
         <Converters:ResultColourConverter x:Key="ResultColourConverter"/>
         <!--<Converters:BeachStatusToImageConverter x:Key="BeachStatusToImageConverter"/>-->
     </Page.Resources>
 
+    <Page.DataContext>
+        <viewModels:MainViewModel />
+    </Page.DataContext>
+
     <Grid Background="White">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="400" />
+            <RowDefinition Height="200" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="400" />
         </Grid.ColumnDefinitions>
-        
+
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
             <TextBox FontSize="80" Foreground="Red" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding SearchTerm1, Mode=TwoWay}" />
-            <TextBlock FontSize="60" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">VS</TextBlock>
+            <TextBlock FontSize="60" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">
+            	<Run Text="VS"/>
+            </TextBlock>
             <TextBox FontSize="80" Foreground="Blue" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding SearchTerm2, Mode=TwoWay}" />
-            
-            <Button Margin="0,0,0,0" BorderBrush="Black" FontSize="40" HorizontalAlignment="Center" Foreground="Black" Click="Button_Click_1">Showdown!</Button>
+
+            <Button Margin="0,0,0,0" BorderBrush="Black" FontSize="40" HorizontalAlignment="Center" Foreground="Black" Click="Button_Click_1" Content="Showdown!"/>
         </StackPanel>
-        
+
+
+        <StackPanel Visibility="Collapsed" VerticalAlignment="Center" x:Name="ResultsSection" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+            <TextBlock Text="{Binding Results1Total}" Foreground="Red" FontSize="80" />
+            <TextBlock Text="/" Foreground="Black" FontSize="80" />
+            <TextBlock Text="{Binding Results2Total}" Foreground="Blue" FontSize="80"/>
+        </StackPanel>
+
         <Maps:Map x:Name="map" Grid.Column="0" Grid.RowSpan="2" Credentials="{StaticResource BingMapsApiKey}">
             <Maps:MapLayer>
                 <Maps:MapItemsControl ItemsSource="{Binding Results1}"  >
@@ -77,6 +89,7 @@
                 </Maps:MapItemsControl>
             </Maps:MapLayer>
         </Maps:Map>
+
 
     </Grid>
 </Page>

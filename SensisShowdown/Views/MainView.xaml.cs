@@ -1,10 +1,13 @@
 ﻿using Bing.Maps;
 using SensisShowdown.ViewModels;
+using Windows.UI.Xaml;
 
 namespace SensisShowdown.Views
 {
     public sealed partial class MainView
     {
+        public MainViewModel ViewModel { get; set; }
+
         public MainView()
         {
             this.InitializeComponent();
@@ -13,12 +16,19 @@ namespace SensisShowdown.Views
             map.ZoomLevel = 14;
             map.Center = melbourneLocation;
             map.SetView(melbourneLocation);    // Workaround: There is an issue with the map. Images won't display until you move the map.
+
+            ViewModel = this.DataContext as MainViewModel;
+            ViewModel.SearchComplete += ViewModel_SearchComplete;
+        }
+
+        void ViewModel_SearchComplete(object sender, System.EventArgs e)
+        {
+            ResultsSection.Visibility = Visibility.Visible;
         }
 
         private void Button_Click_1(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var viewModel = this.DataContext as MainViewModel;
-            viewModel.ShowDown();
+            ViewModel.ShowDown();
         }
     }
 }
