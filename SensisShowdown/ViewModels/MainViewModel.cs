@@ -99,7 +99,8 @@ namespace SensisShowdown.ViewModels
             Results1.Clear();
             foreach (var listing in results1.results)
             {
-                Results1.Add(new SearchResultData { IsResult1 = true, Latitude = listing.primaryAddress.latitude, Longitude = listing.primaryAddress.longitude, LocationName = listing.name });
+                if (listing.primaryAddress != null)
+                    Results1.Add(new SearchResultData { IsResult1 = true, Latitude = listing.primaryAddress.latitude, Longitude = listing.primaryAddress.longitude, LocationName = listing.name });
             }
             Results1Total = results1.totalResults;
 

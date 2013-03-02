@@ -19,7 +19,7 @@ namespace SensisShowdown.Helpers
         public async Task<SearchResponse> SearchFor(string query, string location)
         {
             // Build the API request
-            var url = new Uri(_endPoint, "?query=" + Uri.EscapeDataString(query) + "&location=" + Uri.EscapeDataString(location) + "&key=" + Uri.EscapeDataString(_apiKey));
+            var url = new Uri(_endPoint, "?query=" + Uri.EscapeDataString(query) + "&location=" + Uri.EscapeDataString(location) + "&key=" + Uri.EscapeDataString(_apiKey) + "&rows=99");
             var req = WebRequest.Create(url);
 
             // Send the request and read the response
