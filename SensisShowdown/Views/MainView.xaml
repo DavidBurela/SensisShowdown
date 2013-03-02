@@ -21,25 +21,25 @@
         <viewModels:MainViewModel />
     </Page.DataContext>
 
-    <Grid Background="White">
+    <Grid Background="LightGray">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="200" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" MinWidth="1" />
             <ColumnDefinition Width="400" />
         </Grid.ColumnDefinitions>
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
-            <TextBox FontSize="80" Foreground="Red" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding SearchTerm1, Mode=TwoWay}" />
+            <TextBox Background="Transparent" BorderBrush="Transparent" FontSize="80" Foreground="Red" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding SearchTerm1, Mode=TwoWay}" />
             <TextBlock FontSize="60" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">
-            	<Run Text="VS"/>
+            	VS
             </TextBlock>
-            <TextBox FontSize="80" Foreground="Blue" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding SearchTerm2, Mode=TwoWay}" />
+            <TextBox Background="Transparent" BorderBrush="Transparent" FontSize="80" Foreground="Blue" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding SearchTerm2, Mode=TwoWay}" />
 
-            <Button Margin="0,0,0,0" Background="Gray" BorderBrush="Black" FontSize="40" HorizontalAlignment="Center" Foreground="Black" Click="Button_Click_1" Content="Showdown!"/>
+            <Button Margin="0,0,0,0" BorderBrush="Black" FontSize="40" HorizontalAlignment="Center" Foreground="Black" Click="Button_Click_1" Content="Showdown!"/>
         </StackPanel>
 
 
