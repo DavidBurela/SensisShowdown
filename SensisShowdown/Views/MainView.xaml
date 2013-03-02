@@ -5,14 +5,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:SensisShowdown.ViewModels"
-    xmlns:Maps="using:Bing.Maps" xmlns:Converters="using:SensisShowdown.Helpers.Converters"
-    xmlns:Chart="using:Telerik.UI.Xaml.Controls.Chart"
+    xmlns:maps="using:Bing.Maps" 
+    xmlns:converters="using:SensisShowdown.Helpers.Converters"
     x:Class="SensisShowdown.Views.MainView"
 
     mc:Ignorable="d">
 
     <Page.Resources>
-        <Converters:ResultColourConverter x:Key="ResultColourConverter"/>
+        <converters:ResultColourConverter x:Key="ResultColourConverter"/>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <!--<Converters:BeachStatusToImageConverter x:Key="BeachStatusToImageConverter"/>-->
     </Page.Resources>
 
@@ -38,57 +39,57 @@
             </TextBlock>
             <TextBox FontSize="80" Foreground="Blue" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding SearchTerm2, Mode=TwoWay}" />
 
-            <Button Margin="0,0,0,0" BorderBrush="Black" FontSize="40" HorizontalAlignment="Center" Foreground="Black" Click="Button_Click_1" Content="Showdown!"/>
+            <Button Margin="0,0,0,0" Background="Gray" BorderBrush="Black" FontSize="40" HorizontalAlignment="Center" Foreground="Black" Click="Button_Click_1" Content="Showdown!"/>
         </StackPanel>
 
 
-        <StackPanel Visibility="Collapsed" VerticalAlignment="Center" x:Name="ResultsSection" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+        <StackPanel Visibility="{Binding DoneAtLeast1Search, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" x:Name="ResultsSection" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
             <TextBlock Text="{Binding Results1Total}" Foreground="Red" FontSize="80" />
             <TextBlock Text="/" Foreground="Black" FontSize="80" />
             <TextBlock Text="{Binding Results2Total}" Foreground="Blue" FontSize="80"/>
         </StackPanel>
 
-        <Maps:Map x:Name="map" Grid.Column="0" Grid.RowSpan="2" Credentials="{StaticResource BingMapsApiKey}">
-            <Maps:MapLayer>
-                <Maps:MapItemsControl ItemsSource="{Binding Results1}"  >
-                    <Maps:MapItemsControl.ItemTemplate>
+        <maps:Map x:Name="map" Grid.Column="0" Grid.RowSpan="2" Credentials="{StaticResource BingMapsApiKey}">
+            <maps:MapLayer>
+                <maps:MapItemsControl ItemsSource="{Binding Results1}"  >
+                    <maps:MapItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Maps:Pushpin ToolTipService.ToolTip="{Binding LocationName}" 
+                            <maps:Pushpin ToolTipService.ToolTip="{Binding LocationName}" 
                                       Background="{Binding IsResult1, Converter={StaticResource ResultColourConverter}}">
-                                <Maps:MapLayer.Position>
-                                    <Maps:Location Longitude="{Binding Longitude}" Latitude="{Binding Latitude}" />
-                                </Maps:MapLayer.Position>
+                                <maps:MapLayer.Position>
+                                    <maps:Location Longitude="{Binding Longitude}" Latitude="{Binding Latitude}" />
+                                </maps:MapLayer.Position>
                                 <!--<Maps:Pushpin.Template>
                                 <ControlTemplate>
                                     <Image Source="{Binding Status, ConverterParameter=BeachStatusToImageConverter, Converter={StaticResource BeachStatusToImageConverter}}"/>
                                 </ControlTemplate>
                             </Maps:Pushpin.Template>-->
-                            </Maps:Pushpin>
+                            </maps:Pushpin>
                         </DataTemplate>
-                    </Maps:MapItemsControl.ItemTemplate>
-                </Maps:MapItemsControl>
-            </Maps:MapLayer>
+                    </maps:MapItemsControl.ItemTemplate>
+                </maps:MapItemsControl>
+            </maps:MapLayer>
 
-            <Maps:MapLayer>
-                <Maps:MapItemsControl ItemsSource="{Binding Results2}"  >
-                    <Maps:MapItemsControl.ItemTemplate>
+            <maps:MapLayer>
+                <maps:MapItemsControl ItemsSource="{Binding Results2}"  >
+                    <maps:MapItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Maps:Pushpin ToolTipService.ToolTip="{Binding LocationName}" 
+                            <maps:Pushpin ToolTipService.ToolTip="{Binding LocationName}" 
                                       Background="{Binding IsResult1, Converter={StaticResource ResultColourConverter}}">
-                                <Maps:MapLayer.Position>
-                                    <Maps:Location Longitude="{Binding Longitude}" Latitude="{Binding Latitude}" />
-                                </Maps:MapLayer.Position>
+                                <maps:MapLayer.Position>
+                                    <maps:Location Longitude="{Binding Longitude}" Latitude="{Binding Latitude}" />
+                                </maps:MapLayer.Position>
                                 <!--<Maps:Pushpin.Template>
                                 <ControlTemplate>
                                     <Image Source="{Binding Status, ConverterParameter=BeachStatusToImageConverter, Converter={StaticResource BeachStatusToImageConverter}}"/>
                                 </ControlTemplate>
                             </Maps:Pushpin.Template>-->
-                            </Maps:Pushpin>
+                            </maps:Pushpin>
                         </DataTemplate>
-                    </Maps:MapItemsControl.ItemTemplate>
-                </Maps:MapItemsControl>
-            </Maps:MapLayer>
-        </Maps:Map>
+                    </maps:MapItemsControl.ItemTemplate>
+                </maps:MapItemsControl>
+            </maps:MapLayer>
+        </maps:Map>
 
 
     </Grid>

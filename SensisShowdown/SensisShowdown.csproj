@@ -112,6 +112,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Helpers\Converters\ResultColourConverter.cs" />
     <Compile Include="Helpers\SsapiSearcher.cs" />
     <Compile Include="Models\SearchResultData.cs" />

@@ -13,8 +13,6 @@ namespace SensisShowdown.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        public event EventHandler SearchComplete;
-
         public ObservableCollection<ResultTotal> ResultTotalCollection { get; set; }
 
         public ObservableCollection<SearchResultData> Results1 { get; set; }
@@ -57,6 +55,7 @@ namespace SensisShowdown.ViewModels
         }
 
         private string _searchTerm2;
+
         public string SearchTerm2
         {
             get { return _searchTerm2; }
@@ -64,6 +63,18 @@ namespace SensisShowdown.ViewModels
             {
                 if (value == _searchTerm2) return;
                 _searchTerm2 = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _doneAtLeast1Search;
+        public bool DoneAtLeast1Search
+        {
+            get { return _doneAtLeast1Search; }
+            set
+            {
+                if (value.Equals(_doneAtLeast1Search)) return;
+                _doneAtLeast1Search = value;
                 OnPropertyChanged();
             }
         }
@@ -80,8 +91,8 @@ namespace SensisShowdown.ViewModels
             ResultTotalCollection.Add(new ResultTotal { Name = "Term 2", Total = 7 });
 
             Location = "melbourne";
-            SearchTerm1 = "asian";
-            SearchTerm2 = "greek";
+            SearchTerm1 = "pizza";
+            SearchTerm2 = "pasta";
 
             //GetSampleData();
         }
@@ -116,8 +127,7 @@ namespace SensisShowdown.ViewModels
             ResultTotalCollection.Add(new ResultTotal { Name = "Term 1", Total = Results1Total });
             ResultTotalCollection.Add(new ResultTotal { Name = "Term 2", Total = Results2Total });
 
-            if (SearchComplete != null)
-                SearchComplete(this, null);
+            DoneAtLeast1Search = true;
         }
 
         public async Task<SearchResponse> DoSearch(string searchTerm, string location)
