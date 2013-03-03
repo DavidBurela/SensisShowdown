@@ -24,6 +24,7 @@ Packages used
 --------
 * Bing Map SDK
 * Sensis SAPI [http://developers.sensis.com.au/about](http://developers.sensis.com.au/about)
+* My quick WinRT compatible port of their sample code [https://gist.github.com/DavidBurela/5069136](https://gist.github.com/DavidBurela/5069136)
 
 License
 --------
