@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="50172DavidBurela.SensisShowdown" Publisher="CN=A8C2CAA2-03A9-471C-9265-FD6C0B3EFD8C" Version="1.0.0.0" />
+  <Identity Name="50172DavidBurela.SensisShowdown" Publisher="CN=A8C2CAA2-03A9-471C-9265-FD6C0B3EFD8C" Version="1.0.0.1" />
   <Properties>
     <DisplayName>Sensis Showdown</DisplayName>
     <PublisherDisplayName>David Burela</PublisherDisplayName>

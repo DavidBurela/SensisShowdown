@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using SensisShowdown.Annotations;
@@ -87,7 +88,7 @@ namespace SensisShowdown.ViewModels
             Results2 = new ObservableCollection<SearchResultData>();
             ResultTotalCollection = new ObservableCollection<ResultTotal>();
 
-            ResultTotalCollection.Add(new ResultTotal { Name = "Term 1", Total = 4});
+            ResultTotalCollection.Add(new ResultTotal { Name = "Term 1", Total = 4 });
             ResultTotalCollection.Add(new ResultTotal { Name = "Term 2", Total = 7 });
 
             Location = "melbourne";
@@ -104,30 +105,41 @@ namespace SensisShowdown.ViewModels
 
         public async void GetShowdownResults(string term1, string term2, string location)
         {
-            var results1 = await DoSearch(term1, location);
-            var results2 = await DoSearch(term2, location);
-
-            Results1.Clear();
-            foreach (var listing in results1.results)
+            try
             {
-                if (listing.primaryAddress != null)
-                    Results1.Add(new SearchResultData { IsResult1 = true, Latitude = listing.primaryAddress.latitude, Longitude = listing.primaryAddress.longitude, LocationName = listing.name });
-            }
-            Results1Total = results1.totalResults;
+                if (string.IsNullOrWhiteSpace(term1) || string.IsNullOrWhiteSpace(term2) || string.IsNullOrWhiteSpace(location))
+                    return;
 
-            Results2.Clear();
-            foreach (var listing in results2.results)
+                var results1 = await DoSearch(term1, location);
+                var results2 = await DoSearch(term2, location);
+
+                Results1.Clear();
+                foreach (var listing in results1.results)
+                {
+                    if (listing.primaryAddress != null)
+                        Results1.Add(new SearchResultData { IsResult1 = true, Latitude = listing.primaryAddress.latitude, Longitude = listing.primaryAddress.longitude, LocationName = listing.name });
+                }
+                Results1Total = results1.totalResults;
+
+                Results2.Clear();
+                foreach (var listing in results2.results)
+                {
+                    if (listing.primaryAddress != null)
+                        Results2.Add(new SearchResultData { IsResult1 = false, Latitude = listing.primaryAddress.latitude, Longitude = listing.primaryAddress.longitude, LocationName = listing.name });
+                }
+                Results2Total = results2.totalResults;
+
+                ResultTotalCollection.Clear();
+                ResultTotalCollection.Add(new ResultTotal { Name = "Term 1", Total = Results1Total });
+                ResultTotalCollection.Add(new ResultTotal { Name = "Term 2", Total = Results2Total });
+
+                DoneAtLeast1Search = true;
+            }
+            catch (WebException)
             {
-                if (listing.primaryAddress != null)
-                    Results2.Add(new SearchResultData { IsResult1 = false, Latitude = listing.primaryAddress.latitude, Longitude = listing.primaryAddress.longitude, LocationName = listing.name });
+                var dlg = new Windows.UI.Popups.MessageDialog("There was a network error");
+                dlg.ShowAsync();
             }
-            Results2Total = results2.totalResults;
-
-            ResultTotalCollection.Clear();
-            ResultTotalCollection.Add(new ResultTotal { Name = "Term 1", Total = Results1Total });
-            ResultTotalCollection.Add(new ResultTotal { Name = "Term 2", Total = Results2Total });
-
-            DoneAtLeast1Search = true;
         }
 
         public async Task<SearchResponse> DoSearch(string searchTerm, string location)
